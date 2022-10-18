@@ -26,4 +26,6 @@ hs_err_pid*
 ** /mvnw
 ** /mvnw.cmd
 ** /target/
+** /.gitignore
 .idea
+renren-generator
