@@ -6,6 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: member
+
+  cloud:
+    nacos:
+      server-addr: 121.41.82.252:8848
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
