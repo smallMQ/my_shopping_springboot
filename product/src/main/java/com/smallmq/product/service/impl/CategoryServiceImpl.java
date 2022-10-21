@@ -21,6 +21,12 @@ import com.smallmq.product.service.CategoryService;
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
     @Override
+    public void removeMenuByIds(List<Long> asList) {
+        // TODO Auto-generated method stub
+        baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
     public List<CategoryEntity> listWithTree() {
         // 1.查出所有分类
         List<CategoryEntity> entities = baseMapper.selectList(null);
