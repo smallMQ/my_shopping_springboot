@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 121.41.82.252:8848
+        file-extension: yaml
+        username: nacos
+        password: nacos
+        namespace: ab38c7d8-5e32-4967-a186-c549a3e4fb86
