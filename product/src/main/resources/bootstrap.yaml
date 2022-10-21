@@ -9,3 +9,4 @@ spring:
         file-extension: yaml
         username: nacos
         password: nacos
+        namespace: 824a0271-75ea-41c4-a3c5-bdd8cbabad47
