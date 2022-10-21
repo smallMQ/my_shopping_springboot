@@ -9,3 +9,16 @@ spring:
         file-extension: yaml
         username: nacos
         password: nacos
+        namespace: 07ed9e12-04a4-49af-aadc-fe1005d75b62
+        ext-config[0]:
+            data-id: dataSource.yaml
+            group: dev
+            refresh: true
+        ext-config[1]:
+            data-id: mybatis.yaml
+            group: dev
+            refresh: true
+        ext-config[2]:
+            data-id: common.yaml
+            group: dev
+            refresh: true
