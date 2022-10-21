@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.order.entity.OrderReturnApplyEntity;
 import com.smallmq.order.service.OrderReturnApplyService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 
 /**

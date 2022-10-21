@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.coupon.entity.CouponSpuRelationEntity;
 import com.smallmq.coupon.service.CouponSpuRelationService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 
 /**

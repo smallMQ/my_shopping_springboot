@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.coupon.entity.SeckillSessionEntity;
 import com.smallmq.coupon.service.SeckillSessionService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 
 /**

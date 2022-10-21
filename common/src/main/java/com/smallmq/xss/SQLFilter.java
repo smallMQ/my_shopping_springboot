@@ -6,9 +6,9 @@
  * 版权所有，侵权必究！
  */
 
-package com.smallmq.common.xss;
+package com.smallmq.xss;
 
-import com.smallmq.common.exception.RRException;
+import com.smallmq.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
 /**

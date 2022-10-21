@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.member.entity.MemberLevelEntity;
 import com.smallmq.member.service.MemberLevelService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 
 /**

@@ -1,7 +1,7 @@
 package com.smallmq.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.smallmq.common.utils.PageUtils;
+import com.smallmq.utils.PageUtils;
 import com.smallmq.coupon.entity.CouponSpuRelationEntity;
 
 import java.util.Map;

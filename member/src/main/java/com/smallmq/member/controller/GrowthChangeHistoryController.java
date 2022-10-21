@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.member.entity.GrowthChangeHistoryEntity;
 import com.smallmq.member.service.GrowthChangeHistoryService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 
 /**

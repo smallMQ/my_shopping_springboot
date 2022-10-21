@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.coupon.entity.CouponEntity;
 import com.smallmq.coupon.service.CouponService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
-
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 /**
  * 优惠券信息
@@ -25,9 +26,23 @@ import com.smallmq.common.utils.R;
  */
 @RestController
 @RequestMapping("coupon/coupon")
+@RefreshScope
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @Value("${user.name}")
+    private String name;
+
+    @Value("${user.age}")
+    private Integer age;
+
+
+    @RequestMapping("/test")
+    public R test(){
+        return R.ok().put("name", name).put("age", age);
+    }
+
 
     /**
      * 列表

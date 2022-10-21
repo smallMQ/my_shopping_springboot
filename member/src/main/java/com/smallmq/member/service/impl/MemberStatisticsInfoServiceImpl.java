@@ -7,8 +7,8 @@ import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.Query;
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.Query;
 
 import com.smallmq.member.dao.MemberStatisticsInfoDao;
 import com.smallmq.member.entity.MemberStatisticsInfoEntity;

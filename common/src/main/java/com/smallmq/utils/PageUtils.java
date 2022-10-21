@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.smallmq.common.utils;
+package com.smallmq.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 

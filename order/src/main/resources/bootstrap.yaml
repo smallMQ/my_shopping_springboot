@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: order
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 121.41.82.252:8848
+        file-extension: yaml
+        username: nacos
+        password: nacos

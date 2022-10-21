@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smallmq.member.entity.IntegrationChangeHistoryEntity;
 import com.smallmq.member.service.IntegrationChangeHistoryService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
-
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 
 /**
  * 积分变化历史记录

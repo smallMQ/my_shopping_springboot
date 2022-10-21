@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.smallmq.common.exception;
+package com.smallmq.exception;
 
 /**
  * 自定义异常

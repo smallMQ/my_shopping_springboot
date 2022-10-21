@@ -1,7 +1,7 @@
 package com.smallmq.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.smallmq.common.utils.PageUtils;
+import com.smallmq.utils.PageUtils;
 import com.smallmq.order.entity.OrderEntity;
 
 import java.util.Map;

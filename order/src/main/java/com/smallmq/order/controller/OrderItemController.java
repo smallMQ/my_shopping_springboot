@@ -1,19 +1,14 @@
 package com.smallmq.order.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.smallmq.utils.PageUtils;
+import com.smallmq.utils.R;
 import com.smallmq.order.entity.OrderItemEntity;
 import com.smallmq.order.service.OrderItemService;
-import com.smallmq.common.utils.PageUtils;
-import com.smallmq.common.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**

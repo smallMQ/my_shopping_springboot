@@ -1,7 +1,7 @@
 package com.smallmq.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.smallmq.common.utils.PageUtils;
+import com.smallmq.utils.PageUtils;
 import com.smallmq.member.entity.MemberLevelEntity;
 
 import java.util.Map;

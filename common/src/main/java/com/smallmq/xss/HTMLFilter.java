@@ -1,4 +1,4 @@
-package com.smallmq.common.xss;
+package com.smallmq.xss;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

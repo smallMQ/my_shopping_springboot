@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.smallmq.common.utils;
+package com.smallmq.utils;
 //import io.renren.common.validator.group.AliyunGroup;
 //import io.renren.common.validator.group.QcloudGroup;
 //import io.renren.common.validator.group.QiniuGroup;
