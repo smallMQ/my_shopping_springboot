@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: third
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 121.41.82.252:8848
+        file-extension: yaml
+        username: nacos
+        password: nacos
+        namespace: adcc0cdd-5ab4-4569-b2f3-ee3ba4054a00

@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: third
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 121.41.82.252:8848
+    alicloud:
+      access-key: LTAI5tHqPPo2VF4KzU9fV9Ze
+      secret-key: VyVULJJ9uJMo7gbMiofhXmRRMeYnO9
+      oss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+bucket: smallmq
+server:
+  port: 9999
+
