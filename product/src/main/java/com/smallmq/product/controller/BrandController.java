@@ -74,7 +74,7 @@ public class BrandController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody BrandEntity brand) {
-        brandService.updateById(brand);
+        brandService.updateByIdDetail(brand);
 
         return R.ok();
     }

@@ -1,5 +1,7 @@
 package com.smallmq.product.service.impl;
 
+import com.smallmq.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,10 +15,27 @@ import com.smallmq.utils.Query;
 import com.smallmq.product.dao.BrandDao;
 import com.smallmq.product.entity.BrandEntity;
 import com.smallmq.product.service.BrandService;
+import org.springframework.util.StringUtils;
 
 
 @Service("brandService")
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
+
+
+    @Override
+    public void updateByIdDetail(BrandEntity brand) {
+        // 保证冗余字段的数据一至
+        this.updateById(brand);
+        if(!StringUtils.isEmpty(brand.getName())){
+            // 同时修改其他关联表的数据
+            categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
+            // TODO 其他关联
+        }
+
+    }
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

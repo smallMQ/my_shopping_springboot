@@ -1,5 +1,6 @@
 package com.smallmq.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.smallmq.product.dao.BrandDao;
 import com.smallmq.product.dao.CategoryDao;
 import com.smallmq.utils.PageUtils;
@@ -27,6 +28,11 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Override
+    public void updateBrand(Long brandId, String name) {
+        this.update(new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId).set("brand_name",name));
+    }
 
     @Override
     public void saveDetail(CategoryBrandRelationEntity categoryBrandRelation) {
