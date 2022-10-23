@@ -2,6 +2,7 @@ package com.smallmq.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +20,24 @@ import com.smallmq.product.service.CategoryService;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Override
+    public Long[] findCatelogPath(Long catelogId) {
+        List<Long> list = new ArrayList<>();
+        findParentPath(catelogId, list);
+        list.add(catelogId);
+        return list.toArray(new Long[list.size()]);
+    }
+
+    private void findParentPath(Long catelogId, List<Long> list) {
+        CategoryEntity byId = this.getById(catelogId);
+        if (byId.getParentCid() != 0) {
+            // 左侧添加
+            list.add(0, byId.getParentCid());
+            findParentPath(byId.getParentCid(), list);
+        }
+        return;
+    }
 
     @Override
     public void removeMenuByIds(List<Long> asList) {
