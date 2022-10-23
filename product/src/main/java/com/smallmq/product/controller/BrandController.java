@@ -3,6 +3,7 @@ package com.smallmq.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +66,15 @@ public class BrandController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
+
+        return R.ok();
+    }
+    /**
+     * 修改状态
+     */
+    @RequestMapping("/update/status")
+    public R updateStatus(@RequestBody BrandEntity brand) {
         brandService.updateById(brand);
 
         return R.ok();
