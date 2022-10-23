@@ -1,10 +1,14 @@
 package com.smallmq.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,8 @@ import com.smallmq.product.service.BrandService;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
 
+import javax.validation.Valid;
+
 
 /**
  * 品牌
@@ -26,6 +32,7 @@ import com.smallmq.utils.R;
  */
 @RestController
 @RequestMapping("product/brand")
+@Validated
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -55,7 +62,7 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BrandEntity brand) {
+    public R save(@Valid @RequestBody BrandEntity brand) {
         brandService.save(brand);
 
         return R.ok();
