@@ -91,6 +91,14 @@ public class AttrGroupController {
 
         return R.ok();
     }
+    /**
+     * 添加属性与分组的关联关系
+     */
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrAttrgroupRelationEntity> relationEntities) {
+        attrAttrgroupRelationService.saveBatch(relationEntities);
+        return R.ok();
+    }
 
     /**
      * 修改
