@@ -1,7 +1,7 @@
 package com.smallmq.product.controller;
 
-import com.smallmq.product.entity.AttrEntity;
 import com.smallmq.product.service.AttrService;
+import com.smallmq.product.vo.AttrResVo;
 import com.smallmq.product.vo.AttrVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
@@ -48,8 +48,8 @@ public class AttrController {
      */
     @RequestMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId) {
-        AttrEntity attr = attrService.getById(attrId);
-
+//        AttrEntity attr = attrService.getById(attrId);
+        AttrResVo attr = attrService.getAttrInfo(attrId);
         return R.ok().put("attr", attr);
     }
 
@@ -67,8 +67,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr) {
-        attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr) {
+        attrService.updateAttr(attr);
 
         return R.ok();
     }

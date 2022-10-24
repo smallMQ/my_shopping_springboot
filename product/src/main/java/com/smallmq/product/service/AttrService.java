@@ -1,6 +1,7 @@
 package com.smallmq.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smallmq.product.vo.AttrResVo;
 import com.smallmq.product.vo.AttrVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.product.entity.AttrEntity;
@@ -21,5 +22,9 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttr(AttrVo attr);
 
     PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    AttrResVo getAttrInfo(Long attrId);
+
+    void updateAttr(AttrVo attr);
 }
 
