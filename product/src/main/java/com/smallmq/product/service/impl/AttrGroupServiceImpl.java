@@ -10,10 +10,13 @@ import com.smallmq.product.entity.AttrAttrgroupRelationEntity;
 import com.smallmq.product.entity.AttrEntity;
 import com.smallmq.product.entity.AttrGroupEntity;
 import com.smallmq.product.service.AttrGroupService;
+import com.smallmq.product.vo.AttrGroupVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.Query;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,44 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+
+    @Autowired
+    private AttrGroupDao attrGroupDao;
+
+    /**
+     * 根据分类id查出所有的分组,以及分组属性
+     * @param catelogId
+     * @return
+     */
+    @Transactional
+    @Override
+    public List<AttrGroupVo> getAttrGroupWithAttrs(Long catelogId) {
+        // 查询属性组表中的和catelogId一样的组
+        QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("catelog_id",catelogId);
+        List<AttrGroupEntity> attrGroupEntities = attrGroupDao.selectList(wrapper);
+        // 查询关系表
+        List<AttrGroupVo> attrGroupVos = attrGroupEntities.stream().map((item) -> {
+            AttrGroupVo attrGroupVo = new AttrGroupVo();
+            BeanUtils.copyProperties(item, attrGroupVo);
+            QueryWrapper<AttrAttrgroupRelationEntity> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("attr_group_id", item.getAttrGroupId());
+            List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationDao.selectList(wrapper1);
+            List<Long> attrIds = attrAttrgroupRelationEntities.stream().map((item2) -> {
+                return item2.getAttrId();
+            }).collect(Collectors.toList());
+            if(attrIds != null && attrIds.size() > 0){
+                // 查询属性表
+                List<AttrEntity> attrEntities = attrDao.selectBatchIds(attrIds);
+                attrGroupVo.setAttrs(attrEntities);
+            }
+
+
+            return attrGroupVo;
+        }).collect(Collectors.toList());
+
+        return attrGroupVos;
+    }
 
     @Override
     public PageUtils getAttrNoRelation(Map<String, Object> params, Long attrgroupId) {

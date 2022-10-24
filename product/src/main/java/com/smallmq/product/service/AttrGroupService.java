@@ -2,6 +2,7 @@ package com.smallmq.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.smallmq.product.entity.AttrEntity;
+import com.smallmq.product.vo.AttrGroupVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.product.entity.AttrGroupEntity;
 
@@ -24,5 +25,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     List<AttrEntity> getAttrRelation(Long attrgroupId);
 
     PageUtils getAttrNoRelation(Map<String, Object> params, Long attrgroupId);
+
+    List<AttrGroupVo> getAttrGroupWithAttrs(Long catelogId);
 }
 

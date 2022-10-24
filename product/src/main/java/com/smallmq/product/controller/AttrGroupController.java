@@ -6,6 +6,7 @@ import com.smallmq.product.entity.AttrGroupEntity;
 import com.smallmq.product.service.AttrAttrgroupRelationService;
 import com.smallmq.product.service.AttrGroupService;
 import com.smallmq.product.service.CategoryService;
+import com.smallmq.product.vo.AttrGroupVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,15 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 获取当前分类下的所有属性分组,以及属性信息
+     */
+    @RequestMapping("/{catelogId}/withattr")
+    public R getWithAttr(@PathVariable("catelogId") Long catelogId){
+       List<AttrGroupVo> list =  attrGroupService.getAttrGroupWithAttrs(catelogId);
+
+       return R.ok().put("data",list);
+    }
     /**
      * 信息
      */
