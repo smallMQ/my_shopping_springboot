@@ -51,9 +51,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             attrAttrgroupRelationEntity.setAttrId(attr.getAttrId());
             attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
             long count = attrAttrgroupRelationService.count(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
-            if(count > 0){
-                attrAttrgroupRelationService.update(attrAttrgroupRelationEntity,new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attr.getAttrId()));
-            }else{
+            if (count > 0) {
+                attrAttrgroupRelationService.update(attrAttrgroupRelationEntity, new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+            } else {
                 attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
             }
         }
@@ -78,12 +78,15 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId) {
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId, String type) {
         String key = (String) params.get("key");
         QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+        int attrType = "base".equalsIgnoreCase(type) ? 1 : 0;
+
         if (key != null) {
             wrapper.eq("attr_id", key).or().like("attr_name", key);
         }
+        wrapper.eq("attr_type", attrType);
         if (catelogId != 0) {
             wrapper.eq("catelog_id", catelogId);
         }
@@ -97,7 +100,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             AttrResVo attrResVo = new AttrResVo();
             BeanUtils.copyProperties(item, attrResVo);
             AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = attrAttrgroupRelationService.getOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", item.getAttrId()));
-            if (attrAttrgroupRelationEntity != null) {
+            if (attrAttrgroupRelationEntity != null && attrType == 1) {
                 // 通过分组id查询分组
                 Long attrGroupId = attrAttrgroupRelationEntity.getAttrGroupId();
                 attrResVo.setGroupName(attrGroupService.getById(attrGroupId).getAttrGroupName());
@@ -118,9 +121,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         this.save(attrEntity);
         // 保存关联关系
         AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-        attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
-        attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
-        attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
+        // 分组信息存在则保存
+        if (attr.getAttrGroupId() != null) {
+            attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
+            attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
+            attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
+        }
+
 
     }
 
