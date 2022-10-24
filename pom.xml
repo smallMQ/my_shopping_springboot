@@ -18,6 +18,7 @@
         <module>gateway</module>
         <module>renren-generator</module>
         <module>renren-fast</module>
+        <module>third</module>
 
     </modules>
 </project>

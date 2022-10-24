@@ -30,6 +30,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     private CategoryDao categoryDao;
 
     @Override
+    public void updateCategory(Long catId, String name) {
+        this.baseMapper.updateCategory(catId,name);
+
+    }
+
+    @Override
     public void updateBrand(Long brandId, String name) {
         this.update(new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId).set("brand_name",name));
     }

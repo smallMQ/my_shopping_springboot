@@ -1,7 +1,10 @@
 package com.smallmq.product.service.impl;
 
+import com.smallmq.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +19,20 @@ import com.smallmq.utils.Query;
 import com.smallmq.product.dao.CategoryDao;
 import com.smallmq.product.entity.CategoryEntity;
 import com.smallmq.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+    }
 
     @Override
     public Long[] findCatelogPath(Long catelogId) {

@@ -15,6 +15,7 @@ import com.smallmq.utils.Query;
 import com.smallmq.product.dao.BrandDao;
 import com.smallmq.product.entity.BrandEntity;
 import com.smallmq.product.service.BrandService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
@@ -24,7 +25,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
-
+    @Transactional
     @Override
     public void updateByIdDetail(BrandEntity brand) {
         // 保证冗余字段的数据一至
