@@ -1,17 +1,14 @@
 package com.smallmq.product.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.smallmq.utils.PageUtils;
+import com.smallmq.product.entity.CategoryBrandRelationEntity;
+import com.smallmq.product.service.CategoryBrandRelationService;
 import com.smallmq.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.smallmq.product.entity.CategoryBrandRelationEntity;
-import com.smallmq.product.service.CategoryBrandRelationService;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -36,6 +33,15 @@ public class CategoryBrandRelationController {
         return R.ok().put("data", list);
     }
 
+    /**
+     * 获取当前分类下的所有品牌列表
+     */
+    @RequestMapping("/brands/list")
+    public R brandList(@RequestParam("catId") Long catId){
+        List<CategoryBrandRelationEntity> list = categoryBrandRelationService.list(new LambdaQueryWrapper<CategoryBrandRelationEntity>().eq(CategoryBrandRelationEntity::getCatelogId, catId));
+
+        return R.ok().put("data", list);
+    }
 
     /**
      * 信息
