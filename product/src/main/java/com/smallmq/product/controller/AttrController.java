@@ -1,19 +1,15 @@
 package com.smallmq.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.smallmq.product.entity.AttrEntity;
 import com.smallmq.product.service.AttrService;
+import com.smallmq.product.vo.AttrVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -39,6 +35,13 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/base/list/{catelogId}")
+    public R baseAttrlist(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId) {
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
+
+        return R.ok().put("page", page);
+    }
 
     /**
      * 信息
@@ -54,8 +57,8 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr) {
-        attrService.save(attr);
+    public R save(@RequestBody AttrVo attr) {
+        attrService.saveAttr(attr);
 
         return R.ok();
     }
