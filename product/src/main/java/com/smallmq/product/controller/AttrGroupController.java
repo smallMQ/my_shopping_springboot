@@ -58,6 +58,16 @@ public class AttrGroupController {
     }
 
     /**
+     * 获取所有分组没有关联的属性
+     */
+    @RequestMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@RequestParam Map<String, Object> params,
+                            @PathVariable("attrgroupId") Long attrgroupId) {
+        PageUtils page = attrGroupService.getAttrNoRelation(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
+    /**
      * 信息
      */
     @RequestMapping("/info/{attrGroupId}")

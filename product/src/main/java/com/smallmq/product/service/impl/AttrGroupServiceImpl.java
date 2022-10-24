@@ -28,6 +28,41 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+
+    @Override
+    public PageUtils getAttrNoRelation(Map<String, Object> params, Long attrgroupId) {
+        // 1.当前分组只能关联自己所属分类里面的所有属性
+        AttrGroupEntity attrGroupEntity = this.getById(attrgroupId);
+        Long catelogId = attrGroupEntity.getCatelogId();
+
+        // 2.当前分组只能关联别的分组没有引用的属性
+        // 2.1 当前分类下的其他分组
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+        List<Long> collect = attrGroupEntities.stream().map((item) -> {
+            return item.getAttrGroupId();
+        }).collect(Collectors.toList());
+
+        // 2.2 这些分组关联的属性
+        List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_group_id", collect));
+        List<Long> attrIds = attrAttrgroupRelationEntities.stream().map((item) -> {
+            return item.getAttrId();
+        }).collect(Collectors.toList());
+
+        // 2.3 从当前分类的所有属性中移除这些属性
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", 1);
+        if (attrIds != null && attrIds.size() > 0) {
+            wrapper.notIn("attr_id", attrIds);
+        }
+        String key = (String) params.get("key");
+        if (key != null && key.length() > 0) {
+            wrapper.and((obj) -> {
+                obj.eq("attr_id", key).or().like("attr_name", key);
+            });
+        }
+        IPage<AttrEntity> page = attrDao.selectPage(new Query<AttrEntity>().getPage(params), wrapper);
+        return new PageUtils(page);
+    }
+
     @Override
     public List<AttrEntity> getAttrRelation(Long attrgroupId) {
         List<AttrAttrgroupRelationEntity> attr_group_id = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", attrgroupId));
