@@ -1,20 +1,19 @@
 package com.smallmq.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import com.smallmq.product.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.smallmq.product.entity.AttrAttrgroupRelationEntity;
+import com.smallmq.product.entity.AttrEntity;
 import com.smallmq.product.entity.AttrGroupEntity;
+import com.smallmq.product.service.AttrAttrgroupRelationService;
 import com.smallmq.product.service.AttrGroupService;
+import com.smallmq.product.service.CategoryService;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -33,6 +32,9 @@ public class AttrGroupController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
     /**
      * 列表
      */
@@ -45,6 +47,15 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+
+    /**
+     * 获取所有分组和属性的关联
+     */
+    @RequestMapping("/{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId) {
+        List<AttrEntity> attrRelation = attrGroupService.getAttrRelation(attrgroupId);
+        return R.ok().put("data", attrRelation);
+    }
 
     /**
      * 信息
@@ -91,4 +102,14 @@ public class AttrGroupController {
         return R.ok();
     }
 
+
+    /**
+     * 获取分类下所有分组&关联属性
+     */
+    @RequestMapping("/attr/relation/delete")
+    public R getAttrGroupWithAttrsByCatelogId(@RequestBody List<AttrAttrgroupRelationEntity> entities) {
+        attrAttrgroupRelationService.deleteBatchRelation(entities);
+        return R.ok();
+
+    }
 }
