@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 public class Bounds {
 
     
-    private BigDecimal buybounds;
+    private BigDecimal buyBounds;
     
-    private BigDecimal growbounds;
+    private BigDecimal growBounds;
 
 
 }
