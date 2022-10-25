@@ -11,6 +11,7 @@ import com.smallmq.ware.service.PurchaseDetailService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -40,6 +41,13 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<PurchaseDetailEntity> listDetailByPurchaseId(Long id) {
+        LambdaQueryWrapper<PurchaseDetailEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PurchaseDetailEntity::getPurchaseId, id);
+        return this.list(wrapper);
     }
 
 }

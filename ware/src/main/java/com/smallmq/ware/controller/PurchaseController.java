@@ -76,6 +76,15 @@ public class PurchaseController {
     }
 
     /**
+     * 领取采购单
+     */
+    @RequestMapping("/received")
+    public R received(@RequestBody Long[] ids) {
+        purchaseService.receivedPurchase(Arrays.asList(ids));
+        return R.ok();
+    }
+
+    /**
      * 删除
      */
     @RequestMapping("/delete")

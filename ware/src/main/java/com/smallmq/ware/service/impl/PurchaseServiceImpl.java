@@ -76,4 +76,33 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         purchaseDetailService.updateBatchById(purchaseDetailEntities);
     }
 
+    @Override
+    public void receivedPurchase(List<Long> asList) {
+        //1.确认当前采购单是新建或已分配状态
+        List<PurchaseEntity> collect = asList.stream().map(item -> {
+            PurchaseEntity purchaseEntity = this.getById(item);
+            return purchaseEntity;
+        }).filter(item -> {
+            return item.getStatus() == WareConstant.PURCHASE_STATUS_CREATE.getCode() || item.getStatus() == WareConstant.PURCHASE_STATUS_ASSIGNED.getCode();
+        }).map(item -> {
+            item.setStatus(WareConstant.PURCHASE_STATUS_PURCHASING.getCode());
+            return item;
+        }).collect(Collectors.toList());
+
+        //2.改变采购单的状态
+        this.updateBatchById(collect);
+
+        //3.改变采购项的状态
+        collect.forEach((item) -> {
+            List<PurchaseDetailEntity> entities = purchaseDetailService.listDetailByPurchaseId(item.getId());
+            List<PurchaseDetailEntity> detailEntities = entities.stream().map((en) -> {
+                PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
+                detailEntity.setId(en.getId());
+                detailEntity.setStatus(WareConstant.PURCHASE_STATUS_DONE.getCode());
+                return detailEntity;
+            }).collect(Collectors.toList());
+            purchaseDetailService.updateBatchById(detailEntities);
+        });
+    }
+
 }

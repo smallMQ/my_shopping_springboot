@@ -5,6 +5,7 @@ import com.smallmq.utils.PageUtils;
 import com.smallmq.ware.entity.PurchaseEntity;
 import com.smallmq.ware.vo.MergeVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +22,7 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     PageUtils queryPageUnreceivePurchase(Map<String, Object> params);
 
     void mergePurchase(MergeVo vo);
+
+    void receivedPurchase(List<Long> asList);
 }
 
