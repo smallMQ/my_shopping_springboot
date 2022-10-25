@@ -1,6 +1,8 @@
 package com.smallmq.product.controller;
 
+import com.smallmq.product.entity.ProductAttrValueEntity;
 import com.smallmq.product.service.AttrService;
+import com.smallmq.product.service.ProductAttrValueService;
 import com.smallmq.product.vo.AttrResVo;
 import com.smallmq.product.vo.AttrVo;
 import com.smallmq.utils.PageUtils;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,6 +28,9 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
     /**
      * 列表
      */
@@ -34,7 +40,6 @@ public class AttrController {
 
         return R.ok().put("page", page);
     }
-
 
 
     @RequestMapping("/{attrType}/list/{catelogId}")
@@ -77,6 +82,17 @@ public class AttrController {
         return R.ok();
     }
 
+    /*
+     * 修改规格参数
+     */
+    @RequestMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities) {
+        productAttrValueService.updateSpuAttr(spuId, entities);
+
+        return R.ok();
+    }
+
     /**
      * 删除
      */
@@ -87,4 +103,13 @@ public class AttrController {
         return R.ok();
     }
 
+    /**
+     *
+     */
+    @RequestMapping("/base/listforspu/{spuId}")
+    public R baseAttrlistforspu(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrlistforspu(spuId);
+
+        return R.ok().put("data", entities);
+    }
 }

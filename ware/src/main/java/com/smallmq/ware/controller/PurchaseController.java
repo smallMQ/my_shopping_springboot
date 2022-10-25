@@ -103,4 +103,5 @@ public class PurchaseController {
         purchaseService.mergePurchase(vo);
         return R.ok();
     }
+
 }

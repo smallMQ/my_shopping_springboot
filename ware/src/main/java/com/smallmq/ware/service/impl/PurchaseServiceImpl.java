@@ -13,6 +13,7 @@ import com.smallmq.ware.entity.PurchaseEntity;
 import com.smallmq.ware.service.PurchaseDetailService;
 import com.smallmq.ware.service.PurchaseService;
 import com.smallmq.ware.vo.MergeVo;
+import com.smallmq.ware.vo.PurchaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,5 +105,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             purchaseDetailService.updateBatchById(detailEntities);
         });
     }
+
+
 
 }
