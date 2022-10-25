@@ -1,7 +1,7 @@
 package com.smallmq.product.dao;
 
-import com.smallmq.product.entity.SpuImagesEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smallmq.product.entity.SpuImagesEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SpuImagesDao extends BaseMapper<SpuImagesEntity> {
+
 
 }

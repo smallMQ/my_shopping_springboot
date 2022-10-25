@@ -1,6 +1,7 @@
 package com.smallmq.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smallmq.product.vo.SpuSaveVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.product.entity.SpuInfoEntity;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSpuInfo(SpuSaveVo spuSaveVo);
 }
 
