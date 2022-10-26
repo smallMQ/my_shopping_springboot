@@ -3,10 +3,12 @@ package com.smallmq.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.smallmq.constant.ProductConstant;
 import com.smallmq.product.dao.SpuInfoDao;
 import com.smallmq.product.dao.SpuInfoDescDao;
 import com.smallmq.product.entity.*;
 import com.smallmq.product.feign.CouponFeignService;
+import com.smallmq.product.feign.SearchFeignService;
 import com.smallmq.product.feign.WareFeignService;
 import com.smallmq.product.service.*;
 import com.smallmq.product.vo.*;
@@ -61,6 +63,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     private WareFeignService wareFeignService;
+
+    @Autowired
+    private SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -256,7 +261,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
 
         Map<Long, Boolean> finalStockMap = stockMap;
-        skuInfoEntities.stream().map(skuInfoEntity -> {
+        List<SkuEsModel> list1 = skuInfoEntities.stream().map(skuInfoEntity -> {
             SkuEsModel skuEsModel1 = new SkuEsModel();
             BeanUtils.copyProperties(skuInfoEntity, skuEsModel1);
             skuEsModel1.setSkuPrice(skuInfoEntity.getPrice());
@@ -282,6 +287,16 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
             return skuEsModel1;
         }).collect(Collectors.toList());
+        // TODO 5、将数据发送给es进行保存：gulimall-search
+        R r = searchFeignService.productStatusUp(list1);
+        if (r.getCode() == 0) {
+            // 远程调用成功
+            // TODO 6、修改当前spu的状态
+            this.baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_UP.getCode());
+        } else {
+            // 远程调用失败
+            // TODO 7、重复调用？接口幂等性：重试机制
+        }
 
     }
 }
