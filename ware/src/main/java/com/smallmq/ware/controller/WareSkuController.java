@@ -1,19 +1,16 @@
 package com.smallmq.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.smallmq.ware.entity.WareSkuEntity;
-import com.smallmq.ware.service.WareSkuService;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.R;
+import com.smallmq.ware.entity.WareSkuEntity;
+import com.smallmq.ware.service.WareSkuService;
+import com.smallmq.ware.vo.SkuHasStockVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -78,6 +75,15 @@ public class WareSkuController {
         wareSkuService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 查询sku是否有库存
+     */
+    @RequestMapping("/hasstock")
+    public List<SkuHasStockVo> getSkuHasStock(@RequestBody List<Long> skuIds) {
+        List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+        return vos;
     }
 
 }

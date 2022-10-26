@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: search
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 121.41.82.252:8848
+        file-extension: yaml
+        username: nacos
+        password: nacos
+        namespace: 2db275d1-1088-4244-aa94-93545ff309fa

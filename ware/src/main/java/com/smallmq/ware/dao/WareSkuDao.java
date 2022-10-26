@@ -3,6 +3,7 @@ package com.smallmq.ware.dao;
 import com.smallmq.ware.entity.WareSkuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 商品库存
@@ -14,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
 
+    Long getSkuStock(@Param("skuId") Long skuId);
 }

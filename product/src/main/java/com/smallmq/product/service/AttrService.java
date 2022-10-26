@@ -6,6 +6,7 @@ import com.smallmq.product.vo.AttrVo;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.product.entity.AttrEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrResVo getAttrInfo(Long attrId);
 
     void updateAttr(AttrVo attr);
+
+    List<Long> selectSearchAttrIds(List<Long> attrIds);
 }
 

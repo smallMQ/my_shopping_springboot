@@ -7,10 +7,12 @@ import com.smallmq.product.dao.SpuInfoDao;
 import com.smallmq.product.dao.SpuInfoDescDao;
 import com.smallmq.product.entity.*;
 import com.smallmq.product.feign.CouponFeignService;
+import com.smallmq.product.feign.WareFeignService;
 import com.smallmq.product.service.*;
 import com.smallmq.product.vo.*;
 import com.smallmq.to.SkuReductionTo;
 import com.smallmq.to.SpuBoundTo;
+import com.smallmq.to.es.SkuEsModel;
 import com.smallmq.utils.PageUtils;
 import com.smallmq.utils.Query;
 import com.smallmq.utils.R;
@@ -21,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -58,6 +58,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private WareFeignService wareFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -213,6 +216,72 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 wrapper
         );
         return new PageUtils(page);
+
+    }
+
+    @Override
+    public void up(Long spuId) {
+        List<SkuEsModel> list = new ArrayList<>();
+        SkuEsModel skuEsModel = new SkuEsModel();
+        // 查出当前spuId对应的所有sku信息，品牌的名字
+        List<SkuInfoEntity> skuInfoEntities = skuInfoService.getSkusBySpuId(spuId);
+        List<Long> skuIds = skuInfoEntities.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
+
+        // TODO 4、查询当前sku的所有属性信息
+        List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrlistforspu(spuId);
+        List<Long> attrIds = baseAttrs.stream().map(attr -> {
+            return attr.getAttrId();
+        }).collect(Collectors.toList());
+
+        List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
+
+        Set<Long> idSet = new HashSet<>(searchAttrIds);
+
+        List<SkuEsModel.Attrs> attrsList = baseAttrs.stream().filter(item -> {
+            return idSet.contains(item.getAttrId());
+        }).map(item -> {
+            SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
+            BeanUtils.copyProperties(item, attrs);
+            return attrs;
+        }).collect(Collectors.toList());
+
+
+        // TODO 1、发送远程调用，库存系统查询是否有库存
+        Map<Long, Boolean> stockMap = null;
+        try {
+            List<SkuHasStockVo> skuHasStock = wareFeignService.getSkuHasStock(skuIds);
+            stockMap = skuHasStock.stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
+        } catch (Exception e) {
+            log.error("库存服务查询异常：原因{}", e);
+        }
+
+        Map<Long, Boolean> finalStockMap = stockMap;
+        skuInfoEntities.stream().map(skuInfoEntity -> {
+            SkuEsModel skuEsModel1 = new SkuEsModel();
+            BeanUtils.copyProperties(skuInfoEntity, skuEsModel1);
+            skuEsModel1.setSkuPrice(skuInfoEntity.getPrice());
+            skuEsModel1.setSkuImg(skuInfoEntity.getSkuDefaultImg());
+
+            // TODO 2、热度评分。0
+
+            if (finalStockMap == null) {
+                skuEsModel1.setHasStock(true);
+            } else {
+                skuEsModel1.setHasStock(finalStockMap.get(skuInfoEntity.getSkuId()));
+            }
+            skuEsModel1.setHotScore(0L);
+            // TODO 3、查询品牌和分类的名字信息
+            BrandEntity brandEntity = brandService.getById(skuInfoEntity.getBrandId());
+            skuEsModel1.setBrandName(brandEntity.getName());
+            skuEsModel1.setBrandImg(brandEntity.getLogo());
+
+            CategoryEntity categoryEntity = categoryService.getById(skuInfoEntity.getCatalogId());
+            skuEsModel1.setCatalogName(categoryEntity.getName());
+
+            skuEsModel1.setAttrs(attrsList);
+
+            return skuEsModel1;
+        }).collect(Collectors.toList());
 
     }
 }

@@ -80,5 +80,13 @@ public class SpuInfoController {
 
         return R.ok();
     }
+    /**
+     * 上架
+     */
+    @RequestMapping("/{spuId}/up")
+    public R spuUp(@PathVariable("spuId") Long spuId) {
+        spuInfoService.up(spuId);
+        return R.ok();
+    }
 
 }

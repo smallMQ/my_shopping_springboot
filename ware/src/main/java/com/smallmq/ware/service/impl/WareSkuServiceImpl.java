@@ -8,10 +8,13 @@ import com.smallmq.utils.Query;
 import com.smallmq.ware.dao.WareSkuDao;
 import com.smallmq.ware.entity.WareSkuEntity;
 import com.smallmq.ware.service.WareSkuService;
+import com.smallmq.ware.vo.SkuHasStockVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("wareSkuService")
@@ -32,6 +35,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+
+        return skuIds.stream().map(skuId -> {
+            Long count = this.baseMapper.getSkuStock(skuId);
+            SkuHasStockVo vo = new SkuHasStockVo();
+            vo.setSkuId(skuId);
+            vo.setHasStock(count == null ? false : count > 0);
+            return vo;
+        }).collect(Collectors.toList());
     }
 
 }

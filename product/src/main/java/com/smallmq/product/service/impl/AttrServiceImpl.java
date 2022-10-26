@@ -60,6 +60,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds) {
+        return this.baseMapper.selectSearchAttrIds(attrIds);
+    }
+
+    @Override
     public AttrResVo getAttrInfo(Long attrId) {
         AttrResVo attrResVo = new AttrResVo();
         AttrEntity attrEntity = this.getById(attrId);
