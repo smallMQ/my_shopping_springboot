@@ -36,7 +36,7 @@ public class EsalticSearchServiceImpl implements EsalticSearchService {
         }
         BulkResponse bulk = client.bulk(bulkRequest, SearchConfig.COMMON_OPTIONS);
         boolean b = bulk.hasFailures();
-        log.error("商品上架错误：{}", bulk.buildFailureMessage());
+        log.error("商品上架完成：{}", bulk.buildFailureMessage());
         return b;
     }
 }
